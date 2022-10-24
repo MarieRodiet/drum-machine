@@ -5,31 +5,58 @@ type keyProps = {
   name: string
   sound: string
   handleShowSound: (params: any) => any
+  isQuiet: boolean
+  url: string
 }
-export default function Key({ name, sound, handleShowSound }: keyProps) {
+export default function Key({ name, sound, url, handleShowSound, isQuiet }: keyProps) {
   let playSound = (e: any) => {
+    let key = ''
     handleShowSound('')
     if (e.type === 'click') {
-      let clicked = document.getElementById(e.target.innerText) as HTMLAudioElement
-      clicked?.play()
-      handleShowSound(e.target.innerText)
+      key = e.target.innerText
     }
     if (e.type === 'keydown') {
-      let clicked = document.getElementById(e.key.toUpperCase()) as HTMLAudioElement
-      clicked?.play()
-      handleShowSound(e.key.toUpperCase())
+      key = e.key.toUpperCase()
     }
+    let playingElement = document.getElementById(key) as HTMLAudioElement
+
+    // let playingPromise = playingElement.play()
+    // if (playingPromise !== undefined) {
+    //   playingPromise
+    //     .then((_) => {
+    //       console.log('playing')
+    //       handleShowSound(sound)
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //       handleShowSound('')
+    //     })
+    // }
+
+    fetch(url, { mode: 'no-cors' })
+      .then((response) => response.blob())
+      .then((blob) => {
+        playingElement.srcObject = blob
+        return playingElement.play()
+      })
+      .then((_) => {
+        // Video playback started ;)
+      })
+      .catch((e) => {
+        // Video playback failed ;(
+      })
   }
+
   return (
     <Button
       className="drum-pad"
       id={sound}
-      onClick={playSound}
-      onKeyDown={playSound}
+      onClick={isQuiet ? () => {} : playSound}
+      onKeyDown={isQuiet ? () => {} : playSound}
       variant="contained"
       color="warning"
     >
-      <AudioElement name={name} sound={sound} />
+      <AudioElement name={name} url={sound} />
       {name}
     </Button>
   )

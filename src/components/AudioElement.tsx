@@ -1,10 +1,10 @@
 type audioElementProps = {
   name: string
-  sound: string
+  url: string
 }
-export default function AudioElement({ name, sound }: audioElementProps) {
+export default function AudioElement({ name, url }: audioElementProps) {
   return (
-    <audio src={sound} className="clip" id={name}>
+    <audio src={url} preload="none" className="clip" id={name} muted>
       {name}
     </audio>
   )
