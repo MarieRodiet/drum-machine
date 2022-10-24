@@ -8,39 +8,39 @@ export default function Keyboard({ handleShowSound }: KeyboardProps) {
   const keys = [
     {
       name: 'Q',
-      sound: '/audio/Heater-1.mp3',
+      sound: 'Heater-1.mp3',
     },
     {
       name: 'W',
-      sound: '/audio/Heater-2.mp3',
+      sound: 'Heater-2.mp3',
     },
     {
       name: 'E',
-      sound: '/audio/Heater-3.mp3',
+      sound: 'Heater-3.mp3',
     },
     {
       name: 'A',
-      sound: '/audio/Heater-4_1.mp3',
+      sound: 'Heater-4_1.mp3',
     },
     {
       name: 'S',
-      sound: '/audio/Heater-6.mp3',
+      sound: 'Heater-6.mp3',
     },
     {
       name: 'D',
-      sound: '/audio/Cev_H2.mp3',
+      sound: 'Cev_H2.mp3',
     },
     {
       name: 'Z',
-      sound: '/audio/Dsc_Oh.mp3',
+      sound: 'Dsc_Oh.mp3',
     },
     {
       name: 'X',
-      sound: '/audio/Kick_n_Hat.mp3',
+      sound: 'Kick_n_Hat.mp3',
     },
     {
       name: 'C',
-      sound: '/audio/RP4_KICK_1.mp3',
+      sound: 'RP4_KICK_1.mp3',
     },
   ]
 
@@ -54,7 +54,12 @@ export default function Keyboard({ handleShowSound }: KeyboardProps) {
       }}
     >
       {keys.map((el) => (
-        <Key name={el.name} sound={el.sound} key={el.name} handleShowSound={handleShowSound} />
+        <Key
+          name={el.name}
+          sound={'/drum-machine/audio/' + el.sound}
+          key={el.name}
+          handleShowSound={handleShowSound}
+        />
       ))}
     </Box>
   )
