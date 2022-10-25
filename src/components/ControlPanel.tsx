@@ -1,25 +1,23 @@
 import { Box } from '@mui/system'
 import { FormControlLabel, Switch, Slider, Stack, Typography } from '@mui/material'
 import { VolumeDown, VolumeUp } from '@mui/icons-material'
-import { useState } from 'react'
 
 type controlPanelProps = {
   sound: string
   handleSwitch: (params: boolean) => void
   isQuiet: boolean
   handleKeysChange: (params: boolean) => void
+  handleChangeVolume: (params: number) => void
 }
 export default function ControlPanel({
   sound,
   handleSwitch,
   isQuiet,
   handleKeysChange,
+  handleChangeVolume,
 }: controlPanelProps) {
-  const [value, setValue] = useState(20)
-
-  const changeValue = (event: any, value: any) => {
-    console.log(event.target)
-    setValue(value)
+  const handleValueChange = (e: any) => {
+    handleChangeVolume(e.target.value)
   }
   return (
     <Box
@@ -40,30 +38,23 @@ export default function ControlPanel({
       <FormControlLabel
         value="start"
         control={<Switch color="warning" onChange={(e) => handleSwitch(e.target.checked)} />}
-        label="Power"
+        label="ON/OFF"
         labelPlacement="top"
       />
       <Stack spacing={2} direction="row" sx={{ m: 1, width: '100%' }} alignItems="center">
         <VolumeDown />
         {isQuiet ? (
-          <Slider
-            disabled
-            aria-label="Disabled slider"
-            value={value}
-            size="small"
-            min={10}
-            max={100}
-            step={10}
-          />
+          <Slider disabled aria-label="Disabled slider" size="small" min={10} max={100} step={10} />
         ) : (
           <Slider
+            key="volume"
             aria-label="Volume"
-            min={10}
+            min={0}
             max={100}
             step={10}
-            value={value}
-            onChange={changeValue}
+            onChange={handleValueChange}
             size="small"
+            valueLabelDisplay="auto"
           />
         )}
         <VolumeUp />

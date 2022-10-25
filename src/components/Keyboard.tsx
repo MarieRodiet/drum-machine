@@ -11,8 +11,9 @@ interface KeyboardProps {
   handleShowSound: (params: string) => void
   isQuiet: boolean
   keysToPlay: KeysArray[]
+  volume: number
 }
-export default function Keyboard({ handleShowSound, isQuiet, keysToPlay }: KeyboardProps) {
+export default function Keyboard({ handleShowSound, isQuiet, keysToPlay, volume }: KeyboardProps) {
   return (
     <Box
       sx={{
@@ -32,6 +33,7 @@ export default function Keyboard({ handleShowSound, isQuiet, keysToPlay }: Keybo
           key={el.name}
           handleShowSound={handleShowSound}
           isQuiet={isQuiet}
+          volume={volume}
         />
       ))}
     </Box>

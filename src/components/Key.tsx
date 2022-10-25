@@ -7,8 +7,9 @@ type keyProps = {
   handleShowSound: (params: any) => any
   isQuiet: boolean
   url: string
+  volume: number
 }
-export default function Key({ name, sound, url, handleShowSound, isQuiet }: keyProps) {
+export default function Key({ name, sound, url, handleShowSound, isQuiet, volume }: keyProps) {
   let playSound = (e: any) => {
     let key = ''
     handleShowSound('')
@@ -19,32 +20,11 @@ export default function Key({ name, sound, url, handleShowSound, isQuiet }: keyP
       key = e.key.toUpperCase()
     }
     let playingElement = document.getElementById(key) as HTMLAudioElement
-
-    // let playingPromise = playingElement.play()
-    // if (playingPromise !== undefined) {
-    //   playingPromise
-    //     .then((_) => {
-    //       console.log('playing')
-    //       handleShowSound(sound)
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //       handleShowSound('')
-    //     })
-    // }
-
-    fetch(url, { mode: 'no-cors' })
-      .then((response) => response.blob())
-      .then((blob) => {
-        playingElement.srcObject = blob
-        return playingElement.play()
-      })
-      .then((_) => {
-        // Video playback started ;)
-      })
-      .catch((e) => {
-        // Video playback failed ;(
-      })
+    let link = playingElement.getAttribute('src') as string
+    const sound = new Audio(link)
+    sound.volume = volume / 100
+    sound.play()
+    handleShowSound(name)
   }
 
   return (
@@ -56,7 +36,7 @@ export default function Key({ name, sound, url, handleShowSound, isQuiet }: keyP
       variant="contained"
       color="warning"
     >
-      <AudioElement name={name} url={sound} />
+      <AudioElement name={name} url={url} />
       {name}
     </Button>
   )
